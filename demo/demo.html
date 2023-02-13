@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.3/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+  </head>
+  <body>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 200 150"
+      overflow="visible"
+    >
+      <path
+        id="path"
+        fill="none"
+        stroke="#b606ff"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-miterlimit="10"
+        stroke-width="10"
+        d="M0,0 L 0,150 L 200,0"
+      />
+    </svg>
+    <script>
+      //创建Pixi应用
+      const app = new PIXI.Application({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+      document.body.appendChild(app.view)
+
+      //创建动画实例
+      const animation = new TimelineMax()
+
+      //创建粒子类
+      class Particle {
+        constructor(x, y) {
+          this.x = x
+          this.y = y
+        }
+        //每帧更新粒子的位置
+        update() {
+          animation.to(this, 0.1, {
+            x: this.x + Math.random() * 10 - 5,
+            y: this.y + Math.random() * 10 - 5,
+          })
+        }
+      }
+
+      //创建粒子
+      let particles = []
+      for (let i = 0; i < 100; i++) {
+        let p = new Particle(app.screen.width / 2, app.screen.height / 2)
+        particles.push(p)
+      }
+
+      //渲染粒子
+      app.ticker.add(() => {
+        for (let i = 0; i < particles.length; i++) {
+          let particle = particles[i]
+
+          //使用Pixi渲染粒子
+          let graphics = new PIXI.Graphics()
+          graphics.beginFill(0xffffff)
+          graphics.drawCircle(particle.x, particle.y, 2)
+          graphics.endFill()
+          app.stage.addChild(graphics)
+
+          //使用GSAP更新粒子位置
+          particle.update()
+        }
+      })
+    </script>
+  </body>
+</html>
