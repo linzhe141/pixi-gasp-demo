@@ -21,14 +21,14 @@ export class BolbContainer {
       // tl.to(sprite, {repeat: -1, rotation: -360})
       // tl.timeScale(0.0001)
       // rotation 单位是弧度
-      gsap.to(sprite, {rotation: -2 * Math.PI, duration: 600, repeat: -1})
+      // gsap.to(sprite, {rotation: -2 * Math.PI, duration: 600, repeat: -1})
       container.addChild(sprite)
     })
     this.nodes = nodes
     // 旋转放大的锚点
     container.pivot.set(window.innerWidth / 2, window.innerHeight / 2)
     container.position.set(window.innerWidth / 2, window.innerHeight / 2)
-    gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
+    // gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
 
     return {
       container,

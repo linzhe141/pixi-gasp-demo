@@ -38,7 +38,8 @@ let treasureNodes = [
 ]
 let links = [
   {source: {name: '1', x: 0, y: 0}, target: {name: '11', x: 0, y: 0}},
-  {source: {name: '2', x: 0, y: 0}, target: {name: '12', x: 0, y: 0}},
+  {source: {name: '1', x: 0, y: 0}, target: {name: '12', x: 0, y: 0}},
+  {source: {name: '1', x: 0, y: 0}, target: {name: '20', x: 0, y: 0}},
   {source: {name: '3', x: 0, y: 0}, target: {name: '13', x: 0, y: 0}},
 ]
 
@@ -52,6 +53,17 @@ const {container: linksContainer, links: links1} =
   await new LinksContainer().init(links)
 
 console.log(links)
+
+app.stage.sortChildren = true
+app.stage.addChild(bolbContainer)
+app.stage.addChild(treasureContainer)
+app.stage.addChild(centerContainer)
+app.stage.addChild(linksContainer)
+app.stage.children.sort((a, b) => a.zIndex - b.zIndex)
+console.log(blobNodes1)
+console.log(treasureNodes1)
+console.log(app.stage.children)
+
 function setLinksCoords(nodes, links) {
   for (let i = 0; i < links.length; i++) {
     const item = links[i]
@@ -67,12 +79,62 @@ function setLinksCoords(nodes, links) {
   return links
 }
 
-app.stage.sortChildren = true
-app.stage.addChild(bolbContainer)
-app.stage.addChild(treasureContainer)
-app.stage.addChild(centerContainer)
-app.stage.addChild(linksContainer)
-app.stage.children.sort((a, b) => a.zIndex - b.zIndex)
-console.log(blobNodes1)
-console.log(treasureNodes1)
-console.log(app.stage.children)
+function getVectorRadian(v1, v2) {
+  const {x: x1, y: y1} = v1
+  const {x: x2, y: y2} = v2
+  // 余弦定理
+  // Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) ==
+  //   Math.pow(x1, 2) +
+  //     Math.pow(y1, 2) +
+  //     Math.pow(x2, 2) +
+  //     Math.pow(y2, 2) -
+  //     2 *
+  //       Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2)) *
+  //       Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2)) *
+  //       Math.cos(radian)
+  console.log('xxxx',Math.pow(x1, 2)
+  + Math.pow(y1, 2) 
+  + Math.pow(x2, 2) 
+  + Math.pow(y2, 2) 
+  - 
+  (
+    Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)
+  ))
+
+  console.log('yyy',(
+    2 *
+    Math.sqrt(
+      (
+        Math.pow(x1, 2) + Math.pow(y1, 2)
+      ) 
+      *
+      (
+        Math.pow(x2, 2) + Math.pow(y2, 2)
+      )
+    )
+  ))
+  let cosRadian =
+    (
+      Math.pow(x1, 2)
+      + Math.pow(y1, 2) 
+      + Math.pow(x2, 2) 
+      + Math.pow(y2, 2) 
+      - 
+      (
+        Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)
+      )
+    )
+    /
+    (
+      2 *
+      Math.sqrt(
+        Math.pow(x1, 2) + Math.pow(y1, 2)
+      )
+      *
+      Math.sqrt(
+        Math.pow(x2, 2) + Math.pow(y2, 2)
+      )
+    )
+
+  return Math.acos(cosRadian)
+}
