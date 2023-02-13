@@ -5,15 +5,15 @@ export class TreasureContainer {
   async init(nodes) {
     const container = new Container()
     container.zIndex = 2
-    const texture = await Assets.load('images/treasure.png')
+    const texture = await Assets.load('svg/planet1.svg')
     nodes = this.setNodeListCoords(nodes, {
-      xCenter: 250,
-      yCenter: 250,
-      radius: 220,
+      xCenter: window.innerWidth / 2,
+      yCenter: window.innerHeight / 2,
+      radius: 320,
     })
     nodes.forEach((item) => {
       const sprite = new Sprite(texture)
-      sprite.pivot.set(14, 12)
+      sprite.pivot.set(25, 25)
       sprite.position.set(item.x, item.y)
       // const tl = gsap.timeline()
       // tl.to(sprite, {repeat: -1, rotation: -360})
@@ -24,8 +24,8 @@ export class TreasureContainer {
     })
     this.nodes = nodes
     // 旋转放大的锚点
-    container.pivot.set(250, 250)
-    container.position.set(250, 250)
+    container.pivot.set(window.innerWidth / 2, window.innerHeight / 2)
+    container.position.set(window.innerWidth / 2, window.innerHeight / 2)
     gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
     return {
       container,

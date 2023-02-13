@@ -3,10 +3,12 @@ import gsap from 'gsap'
 import {BolbContainer} from './bolbContainer'
 import {TreasureContainer} from './treasureContainer'
 import {LinksContainer} from './linksContainer'
+import {CenterContainer} from './centerContainer'
 
 const app = new Application({
-  width: 500,
-  height: 500,
+  width: window.innerWidth,
+  height: window.innerHeight,
+  background: 0xffffff,
 })
 document.body.appendChild(app.view)
 
@@ -44,10 +46,10 @@ const {container: bolbContainer, nodes: blobNodes1} =
   await new BolbContainer().init(boldNodes)
 const {container: treasureContainer, nodes: treasureNodes1} =
   await new TreasureContainer().init(treasureNodes)
+const {container: centerContainer} = await new CenterContainer().init()
 links = setLinksCoords([...blobNodes1, ...treasureNodes1], links)
-const {container: linksContainer, links: links1} = new LinksContainer().init(
-  links
-)
+const {container: linksContainer, links: links1} =
+  await new LinksContainer().init(links)
 
 console.log(links)
 function setLinksCoords(nodes, links) {
@@ -56,6 +58,7 @@ function setLinksCoords(nodes, links) {
     const sourceNode = nodes.find((el) => el.name === item.source.name)
     item.source.x = sourceNode.x
     item.source.y = sourceNode.y
+    item.source.rotation = sourceNode.rotation
 
     const targetNode = nodes.find((el) => el.name === item.target.name)
     item.target.x = targetNode.x
@@ -63,14 +66,13 @@ function setLinksCoords(nodes, links) {
   }
   return links
 }
-const container = new Container()
-container.sortChildren = true
-container.addChild(linksContainer)
-container.addChild(bolbContainer)
-container.addChild(treasureContainer)
-app.stage.addChild(container)
-// app.stage.addChild(bolbContainer)
-// app.stage.addChild(treasureContainer)
-// app.stage.addChild(linksContainer)
+
+app.stage.sortChildren = true
+app.stage.addChild(bolbContainer)
+app.stage.addChild(treasureContainer)
+app.stage.addChild(centerContainer)
+app.stage.addChild(linksContainer)
+app.stage.children.sort((a, b) => a.zIndex - b.zIndex)
 console.log(blobNodes1)
 console.log(treasureNodes1)
+console.log(app.stage.children)
