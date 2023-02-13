@@ -1,3 +1,3 @@
-# pixi-gasp-demo
+# pixi-gsap-demo
 
-pixi.js 和 gasp 的动效 demo
+pixi.js 和 gsap 的动效 demo
