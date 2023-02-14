@@ -12,7 +12,8 @@ export class LinksContainer {
       sprite.pivot.set(375, 375)
       console.log(item.source.rotation)
       sprite.rotation = -Math.PI / 4 - item.source.rotation
-      sprite.scale.set(0.0225)
+      // sprite.scale.set(0.025)
+      sprite.scale.set(0.025)
       const line = new Graphics()
       const value = {
         x: item.source.x,
@@ -40,12 +41,12 @@ export class LinksContainer {
           // line.closePath()
         },
       })
-      container.addChild(line)
+      // container.addChild(line)
       container.addChild(sprite)
     }
     container.pivot.set(window.innerWidth / 2, window.innerHeight / 2)
     container.position.set(window.innerWidth / 2, window.innerHeight / 2)
-    // gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
+    gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
 
     return {container, links}
   }

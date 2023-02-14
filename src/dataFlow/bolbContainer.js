@@ -2,7 +2,7 @@ import {Sprite, Container, Assets, Texture} from 'pixi.js'
 import gsap from 'gsap'
 
 export class BolbContainer {
-  async init(nodes) {
+  async init(nodes, tp, canvas) {
     const container = new Container()
     container.zIndex = 2
     const texture = await Assets.load('svg/planet.svg')
@@ -21,14 +21,26 @@ export class BolbContainer {
       // tl.to(sprite, {repeat: -1, rotation: -360})
       // tl.timeScale(0.0001)
       // rotation 单位是弧度
-      // gsap.to(sprite, {rotation: -2 * Math.PI, duration: 600, repeat: -1})
+      gsap.to(sprite, {rotation: -2 * Math.PI, duration: 600, repeat: -1})
       container.addChild(sprite)
+      sprite.interactive = true
+      sprite.on('mousemove', (e) => {
+        const canvasRect = canvas.getBoundingClientRect()
+        tp.container.visible = true
+        tp.update(
+          e.pageX - (canvasRect.left + pageXOffset),
+          e.pageY - (canvasRect.top + pageYOffset)
+        )
+      })
+      sprite.on('mouseleave', (e) => {
+        tp.container.visible = false
+      })
     })
     this.nodes = nodes
     // 旋转放大的锚点
     container.pivot.set(window.innerWidth / 2, window.innerHeight / 2)
     container.position.set(window.innerWidth / 2, window.innerHeight / 2)
-    // gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
+    gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
 
     return {
       container,
@@ -47,7 +59,6 @@ export class BolbContainer {
       const y = radius * Math.cos((2 * Math.PI * i) / length)
       item.x = Number(x.toFixed(2)) + xCenter
       item.y = Number(y.toFixed(2)) + yCenter
-      item.rotation = (2 * Math.PI * i) / length
     }
     return list
   }
