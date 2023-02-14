@@ -46,7 +46,12 @@ export class LinksContainer {
     }
     container.pivot.set(window.innerWidth / 2, window.innerHeight / 2)
     container.position.set(window.innerWidth / 2, window.innerHeight / 2)
-    gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
+    gsap.to(container, {
+      rotation: 2 * Math.PI,
+      duration: 600,
+      ease: 'none',
+      repeat: -1,
+    })
 
     return {container, links}
   }

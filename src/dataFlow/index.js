@@ -45,7 +45,7 @@ let links = [
   {source: {name: '1', x: 0, y: 0}, target: {name: '20', x: 0, y: 0}},
   {source: {name: '1', x: 0, y: 0}, target: {name: '19', x: 0, y: 0}},
   {source: {name: '1', x: 0, y: 0}, target: {name: '16', x: 0, y: 0}},
-  {source: {name: '3', x: 0, y: 0}, target: {name: '13', x: 0, y: 0}},
+  {source: {name: '13', x: 0, y: 0}, target: {name: '3', x: 0, y: 0}},
 ]
 
 const tp = new Tooltip(app.view)

@@ -1,4 +1,4 @@
-import {Sprite, Container, Assets, Texture} from 'pixi.js'
+import {Sprite, Container, Assets, Graphics, Texture} from 'pixi.js'
 import gsap from 'gsap'
 
 export class BolbContainer {
@@ -10,9 +10,20 @@ export class BolbContainer {
     nodes = this.setNodeListCoords(nodes, {
       xCenter: window.innerWidth / 2,
       yCenter: window.innerHeight / 2,
-      radius: 140,
+      radius: 200,
     })
     nodes.forEach((item) => {
+      const circle = new Graphics()
+      circle.lineStyle(0)
+      circle.beginFill(0xffcc00, 1)
+      circle.drawCircle(item.x, item.y, 50)
+      circle.endFill()
+      circle.pivot.set(item.x, item.y)
+      circle.position.set(item.x, item.y)
+      circle.scale.x = circle.scale.y = 0.8
+      circle.alpha = 0.5
+      gsap.to(circle.scale, {duration: 1, x: 1.3, y: 1.3, repeat: -1})
+      gsap.to(circle, {duration: 1, alpha: 0, repeat: -1})
       const sprite = new Sprite(texture)
       sprite.pivot.set(45, 30)
       // sprite.scale.set(0.05)
@@ -21,7 +32,20 @@ export class BolbContainer {
       // tl.to(sprite, {repeat: -1, rotation: -360})
       // tl.timeScale(0.0001)
       // rotation 单位是弧度
-      gsap.to(sprite, {rotation: -2 * Math.PI, duration: 600, repeat: -1})
+      gsap.to(sprite, {
+        rotation: -2 * Math.PI,
+        duration: 600,
+        ease: 'none',
+        repeat: -1,
+      })
+      gsap.to(sprite.scale, {
+        x: 1.2,
+        y: 1.2,
+        duration: 600,
+        ease: 'none',
+        repeat: -1,
+      })
+      container.addChild(circle)
       container.addChild(sprite)
       sprite.interactive = true
       sprite.on('mousemove', (e) => {
@@ -40,7 +64,12 @@ export class BolbContainer {
     // 旋转放大的锚点
     container.pivot.set(window.innerWidth / 2, window.innerHeight / 2)
     container.position.set(window.innerWidth / 2, window.innerHeight / 2)
-    gsap.to(container, {rotation: 2 * Math.PI, duration: 600, repeat: -1})
+    gsap.to(container, {
+      rotation: 2 * Math.PI,
+      duration: 600,
+      ease: 'none',
+      repeat: -1,
+    })
 
     return {
       container,
