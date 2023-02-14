@@ -1,7 +1,7 @@
 import {Application, Sprite, Container, Assets} from 'pixi.js'
 import gsap from 'gsap'
-import {BolbContainer} from './bolbContainer'
-import {TreasureContainer} from './treasureContainer'
+import {InsideCircleContainer} from './insideCircleContainer'
+import {OutsideCircleContainer} from './outsideCircleContainer'
 import {LinksContainer} from './linksContainer'
 import {CenterContainer} from './centerContainer'
 import {Tooltip} from './Tooltip'
@@ -39,13 +39,13 @@ let treasureNodes = [
 ]
 let links = [
   {source: {name: '1', x: 0, y: 0}, target: {name: '11', x: 0, y: 0}},
-  {source: {name: '1', x: 0, y: 0}, target: {name: '12', x: 0, y: 0}},
-  {source: {name: '1', x: 0, y: 0}, target: {name: '13', x: 0, y: 0}},
-  {source: {name: '1', x: 0, y: 0}, target: {name: '15', x: 0, y: 0}},
-  {source: {name: '1', x: 0, y: 0}, target: {name: '20', x: 0, y: 0}},
-  {source: {name: '1', x: 0, y: 0}, target: {name: '19', x: 0, y: 0}},
-  {source: {name: '1', x: 0, y: 0}, target: {name: '16', x: 0, y: 0}},
-  {source: {name: '13', x: 0, y: 0}, target: {name: '3', x: 0, y: 0}},
+  // {source: {name: '1', x: 0, y: 0}, target: {name: '12', x: 0, y: 0}},
+  // {source: {name: '1', x: 0, y: 0}, target: {name: '13', x: 0, y: 0}},
+  // {source: {name: '1', x: 0, y: 0}, target: {name: '15', x: 0, y: 0}},
+  // {source: {name: '1', x: 0, y: 0}, target: {name: '20', x: 0, y: 0}},
+  // {source: {name: '1', x: 0, y: 0}, target: {name: '19', x: 0, y: 0}},
+  // {source: {name: '1', x: 0, y: 0}, target: {name: '16', x: 0, y: 0}},
+  // {source: {name: '13', x: 0, y: 0}, target: {name: '3', x: 0, y: 0}},
 ]
 
 const tp = new Tooltip(app.view)
@@ -63,15 +63,13 @@ tp.render([
 ])
 
 const {container: bolbContainer, nodes: blobNodes1} =
-  await new BolbContainer().init(boldNodes, tp, app.view)
+  await new InsideCircleContainer().init(boldNodes, tp, app.view)
 const {container: treasureContainer, nodes: treasureNodes1} =
-  await new TreasureContainer().init(treasureNodes)
+  await new OutsideCircleContainer().init(treasureNodes)
 const {container: centerContainer} = await new CenterContainer().init()
 links = setLinksCoords([...blobNodes1, ...treasureNodes1], links)
 const {container: linksContainer, links: links1} =
   await new LinksContainer().init(links)
-
-console.log(links)
 
 app.stage.sortChildren = true
 app.stage.addChild(bolbContainer)
@@ -79,10 +77,53 @@ app.stage.addChild(treasureContainer)
 app.stage.addChild(centerContainer)
 app.stage.addChild(linksContainer)
 app.stage.children.sort((a, b) => a.zIndex - b.zIndex)
-console.log(blobNodes1)
-console.log(treasureNodes1)
-console.log(app.stage.children)
-
+app.stage.pivot.set(window.innerWidth / 2, window.innerHeight / 2)
+app.stage.position.set(window.innerWidth / 2, window.innerHeight / 2)
+gsap.to(app.stage, {
+  rotation: 2 * Math.PI,
+  duration: 600,
+  ease: 'none',
+  repeat: -1,
+})
+setTimeout(() => {
+  links = [
+    {source: {name: '1', x: 0, y: 0}, target: {name: '11', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '12', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '13', x: 0, y: 0}},
+  ]
+  init()
+}, 10 * 1000)
+setTimeout(() => {
+  links = [
+    {source: {name: '1', x: 0, y: 0}, target: {name: '11', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '12', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '13', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '15', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '20', x: 0, y: 0}},
+  ]
+  init()
+}, 20 * 1000)
+setTimeout(() => {
+  links = [
+    {source: {name: '1', x: 0, y: 0}, target: {name: '11', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '12', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '13', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '15', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '20', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '19', x: 0, y: 0}},
+    {source: {name: '1', x: 0, y: 0}, target: {name: '16', x: 0, y: 0}},
+    {source: {name: '13', x: 0, y: 0}, target: {name: '3', x: 0, y: 0}},
+  ]
+  init()
+}, 30 * 1000)
+async function init() {
+  app.stage.removeChild(linksContainer)
+  links = setLinksCoords([...blobNodes1, ...treasureNodes1], links)
+  const {container: linksContainer1, links: links1} =
+    await new LinksContainer().init(links)
+  app.stage.addChild(linksContainer1)
+  app.stage.children.sort((a, b) => a.zIndex - b.zIndex)
+}
 function setLinksCoords(nodes, links) {
   for (let i = 0; i < links.length; i++) {
     const item = links[i]
