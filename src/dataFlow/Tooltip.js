@@ -1,4 +1,5 @@
 import {Text, Container, Graphics, Texture} from 'pixi.js'
+import gsap from 'gsap'
 
 export class Tooltip {
   constructor(canvas) {
@@ -12,6 +13,12 @@ export class Tooltip {
     this.linesMargin = 4
     this.w = 0
     this.h = 0
+    gsap.to(this.container, {
+      rotation: -2 * Math.PI,
+      duration: 600,
+      ease: 'none',
+      repeat: -1,
+    })
   }
 
   update = (x, y) => {
