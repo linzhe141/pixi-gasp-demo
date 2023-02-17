@@ -33,7 +33,12 @@ export class DataFlowGraph {
       },
       {t: 'User controlled', c: '#0a0', b: false},
     ])
-
+    gsap.to(tp.container, {
+      rotation: -2 * Math.PI,
+      duration: 600,
+      ease: 'none',
+      repeat: -1,
+    })
     const {container: insideContainer, nodes: insideNodesDetail} =
       await new InsideCircleContainer().init(this.insideNodes, tp, app.view)
     this.insideContainer = insideContainer

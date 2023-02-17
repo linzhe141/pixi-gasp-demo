@@ -1,4 +1,6 @@
 import {DataFlowGraph} from './dataFlowGraph'
+import * as PIXI from 'pixi.js'
+window.PIXI = PIXI
 let insideNodes = [
   {name: '1', x: 0, y: 0},
   {name: '2', x: 0, y: 0},

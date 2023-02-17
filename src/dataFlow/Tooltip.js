@@ -13,25 +13,8 @@ export class Tooltip {
     this.linesMargin = 4
     this.w = 0
     this.h = 0
-    gsap.to(this.container, {
-      rotation: -2 * Math.PI,
-      duration: 600,
-      ease: 'none',
-      repeat: -1,
-    })
   }
 
-  update = (x, y) => {
-    x += this.margin
-    if (x + this.w > this.canvas.width - this.margin) {
-      x -= this.w + this.margin * 2
-    }
-    if (y + this.h > this.canvas.height - this.margin) {
-      y -= this.h + this.margin
-    }
-    this.container.x = x
-    this.container.y = y
-  }
   render = (lines) => {
     this.container.removeChildren()
     var height = 0
